@@ -63,6 +63,7 @@ fun CharacterListScreenBody(
     ) { innerPadding ->
         DisplayStateHandler(
             state = state.characters,
+            loadingContent = { CharacterListShimmer() },
             modifier = Modifier
                 .padding(innerPadding)
         ) { characters ->

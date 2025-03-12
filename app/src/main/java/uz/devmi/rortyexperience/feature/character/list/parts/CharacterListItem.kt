@@ -27,7 +27,7 @@ fun CharacterListItem(
                 model = character.imageUrl,
                 contentDescription = "${character.name} image",
                 modifier = Modifier
-                    .size(64.dp)
+                    .size(56.dp)
             )
         },
         modifier = modifier

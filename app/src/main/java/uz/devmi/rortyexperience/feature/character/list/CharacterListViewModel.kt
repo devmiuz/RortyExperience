@@ -25,19 +25,25 @@ class CharacterListViewModel @Inject constructor(
         totalPages = 0,
         nextPage = null,
         previousPage = null,
-        currentPage = 0
+        currentPage = 1
     )
-
-    init {
-        loadCharacters(1)
-    }
 
     override fun onAction(action: Action) {
         when (action) {
             is Action.LoadNextPage -> {
-                if (pageInfo.nextPage != null){
+                if (pageInfo.nextPage != null) {
                     loadCharacters(pageInfo.nextPage!!)
                 }
+            }
+
+            Action.Refresh -> loadCharacters(1)
+            Action.DismissLoadMoreError -> {
+                updateState { it.copy(loadMoreError = null) }
+            }
+
+            Action.Retry -> {
+                updateState { it.copy(loadMoreError = null) }
+                loadCharacters(pageInfo.nextPage!!)
             }
         }
     }
@@ -56,7 +62,7 @@ class CharacterListViewModel @Inject constructor(
                     if (page == 1) {
                         updateState { it.copy(characters = DisplayState(error = result.value)) }
                     } else {
-                        updateState { it.copy(isLoadingMore = false) }
+                        updateState { it.copy(isLoadingMore = false, loadMoreError = result.value) }
                     }
                 }
 

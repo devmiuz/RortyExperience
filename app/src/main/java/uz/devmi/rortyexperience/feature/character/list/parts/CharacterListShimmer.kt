@@ -40,6 +40,5 @@ fun CharacterListShimmer(modifier: Modifier = Modifier) {
                 )
             }
         }
-
     }
 }

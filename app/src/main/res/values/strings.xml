@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">RortyExperience</string>
     <string name="characters">Characters</string>
+    <string name="network_unavailable">Network Unavailable</string>
+    <string name="data_not_found">Data not found</string>
+    <string name="error_occurred">Error occurred</string>
+    <string name="unknown_error_occurred">Unknown error occurred : %1$s</string>
+    <string name="retry">Retry</string>
 </resources>

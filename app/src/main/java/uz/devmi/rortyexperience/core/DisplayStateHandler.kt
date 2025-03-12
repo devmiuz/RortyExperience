@@ -18,6 +18,7 @@ fun <DATA_TYPE> DisplayStateHandler(
     state: DisplayState<DATA_TYPE>,
     enterAnimation: EnterTransition = fadeIn(),
     exitAnimation: ExitTransition = fadeOut(),
+    onRetry: () -> Unit = {},
     loadingContent: @Composable () -> Unit = { CircularProgressIndicator() },
     dataContent: @Composable AnimatedVisibilityScope.(DATA_TYPE) -> Unit
 ) {
@@ -38,9 +39,14 @@ fun <DATA_TYPE> DisplayStateHandler(
         AnimatedVisibility(
             visible = state.error != null,
             enter = enterAnimation,
-            exit = exitAnimation
+            exit = exitAnimation,
+            modifier = Modifier
+                .align(Alignment.Center)
         ) {
-            state.error
+            ErrorContent(
+                error = state.error,
+                onRetry = onRetry
+            )
         }
 
         AnimatedVisibility(

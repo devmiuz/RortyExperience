@@ -45,9 +45,10 @@ abstract class BaseViewModel<STATE, ACTION, EFFECT>(
         _effects.trySend(sideEffect)
     }
 
-    fun <T, S : DisplayState<T>> handleApiCall(
-        task: suspend () -> Either<AppError,T>,
-        onModify: (DisplayState<T>) -> Unit,
+    fun <T, S : DisplayState<T>, D> handleApiCall(
+        task: suspend () -> Either<AppError, T>,
+        onModify: (DisplayState<D>) -> Unit,
+        produceData: (T) -> D = { it as D },
         onSuccess: suspend (T) -> Unit = {},
         onFailure: suspend (AppError) -> Unit = {}
     ) {
@@ -55,9 +56,10 @@ abstract class BaseViewModel<STATE, ACTION, EFFECT>(
             onModify(DisplayState(isLoading = true))
             when (val result = task()) {
                 is Either.Right -> {
-                    onModify(DisplayState(data = result.value))
+                    onModify(DisplayState(data = produceData(result.value)))
                     onSuccess(result.value)
                 }
+
                 is Either.Left -> {
                     onModify(DisplayState(error = result.value))
                     onFailure(result.value)
